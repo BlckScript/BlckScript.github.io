@@ -162,8 +162,8 @@
     </category>
     <category name="Variables" categorystyle="variable_category" custom="VARIABLE"></category>
     <category name="Functions" categorystyle="procedure_category" custom="PROCEDURE"></category>
-    <category name="BlckScript" categorystyle="blckscript_category">
-        <block type="set_timeout"></block>
+    <category>
+      <block type="eval"></block>
     </category>
   </xml>
 
@@ -195,19 +195,14 @@
     });
     Blockly.defineBlocksWithJsonArray([
     {
-     "type": "set_timeout",
-     "message0": "wait %1 milliseconds then do %2",
+     "type": "eval",
+     "message0": "Eval %1",
      "args0": [
        {
-         "type": "field_number",
-         "name": "TIME",
-         "value": 1000,
-         "min": 0
+         "type": "input_value",
+         "name": "code",
+         "value": null,
        },
-       {
-         "type": "input_statement",
-          "name": "DO"
-       }
      ],
     "previousStatement": null,
     "nextStatement": null,
@@ -217,11 +212,11 @@
   }
   ]);
 
-    Blockly.JavaScript['set_timeout'] = function(block) {
+    Blockly.JavaScript['eval'] = function(block) {
       const time = block.getFieldValue('TIME');
       const statements_do = Blockly.JavaScript.statementToCode(block, 'DO');
       const code = 'setTimeout(function() {\n' + statements_do + '}, ' + time + ');\n';
-      return code;
+      return 'eval(' + block.getFieldValue('code') + ');\n';
     };
 
     const workspace = Blockly.inject('blocklyDiv', {
