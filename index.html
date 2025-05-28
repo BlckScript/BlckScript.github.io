@@ -195,7 +195,7 @@
       "message0": "Wait Milliseconds",
       "args0": [
       {
-        "type": "feild_number",
+        "type": "field_number",
         "name": "time"
       }
       ],
@@ -206,7 +206,7 @@
       "helpUrl": ""
     }
     ]);
-    Blockly.JavaScript['say_text'] = function(block) {
+    Blockly.JavaScript['wait'] = function(block) {
     var time = block.getFieldValue('time');
     return 'await return new Promise(resolve => setTimeout(resolve,' + time + ') );\n';
     };
