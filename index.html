@@ -39,10 +39,6 @@
       background-color: #4CAF50;
       margin-left: 8px;
     }
-    #addAddonBtn {
-      right: 110px;
-      background-color: #2196F3;
-    }
     input[type="file"] {
       display: none;
     }
@@ -168,9 +164,7 @@
     <category name="Functions" categorystyle="procedure_category" custom="PROCEDURE"></category>
   </xml>
 
-  <button id="addAddonBtn">Add Addon (partially broken at the moment)</button>
   <button id="run">Run</button>
-  <input type="file" id="addonInput" accept=".jca" />
 
   <script>
     const scratchTheme = Blockly.Theme.defineTheme('scratchTheme', {
@@ -216,77 +210,6 @@
     });
 
     // Addon file input & button logic
-    const addonInput = document.getElementById('addonInput');
-    document.getElementById('addAddonBtn').addEventListener('click', () => {
-      addonInput.value = ''; // clear to allow re-uploading same file
-      addonInput.click();
-    });
-
-    addonInput.addEventListener('change', (event) => {
-      const file = event.target.files[0];
-      if (!file) return;
-      if (!file.name.toLowerCase().endsWith('.jca')) {
-        alert('Please select a valid .JCA addon file.');
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = e => {
-        try {
-          const addonJson = JSON.parse(e.target.result);
-          registerAddon(addonJson);
-          alert(`Addon "${addonJson.name}" loaded successfully!`);
-        } catch (ex) {
-          alert('Failed to load addon: ' + ex.message);
-        }
-      };
-      reader.readAsText(file);
-    });
-
-    // Register blocks and generators from addon JSON and update toolbox
-    function registerAddon(addonJson) {
-      // Register blocks
-      addonJson.blocks.forEach(block => {
-        Blockly.Blocks[block.type] = {
-          init: function() {
-            this.jsonInit(block);
-          }
-        };
-      });
-
-      // Register generators for JavaScript
-      if (addonJson.generators && addonJson.generators.javascript) {
-        Object.entries(addonJson.generators.javascript).forEach(([blockType, code]) => {
-          Blockly.JavaScript[blockType] = function(block) {
-            if (code.includes('block')) {
-              const fn = new Function('block', code);
-              return fn(block);
-            }
-            return [code, Blockly.JavaScript.ORDER_NONE];
-          };
-        });
-      }
-
-      // Update toolbox XML
-      const originalToolbox = document.getElementById('toolbox');
-      const updatedToolbox = originalToolbox.cloneNode(true);
-
-      const parser = new DOMParser();
-      const categoryName = addonJson.category || 'Addon';
-      const categoryStyle = addonJson.categoryStyle || 'variable_category';
-
-      const categoryXmlStr = `<category name="${categoryName}" categorystyle="${categoryStyle}"></category>`;
-      const categoryXml = parser.parseFromString(categoryXmlStr, 'text/xml').documentElement;
-
-      addonJson.blocks.forEach(block => {
-        const blockElem = document.createElement('block');
-        blockElem.setAttribute('type', block.type);
-        categoryXml.appendChild(blockElem);
-      });
-
-      updatedToolbox.appendChild(categoryXml);
-
-      workspace.updateToolbox(updatedToolbox);
-    }
   </script>
 
 </body>
