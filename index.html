@@ -1,247 +1,342 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>BlckScript</title>
-  <!-- Blockly core -->
-  <script src="https://unpkg.com/blockly/blockly_compressed.js"></script>
-  <script src="https://unpkg.com/blockly/blocks_compressed.js"></script>
-  <script src="https://unpkg.com/blockly/javascript_compressed.js"></script>
-  <script src="https://unpkg.com/blockly/msg/en.js"></script>
-  <link rel="icon" type="image/x-icon" href="blckscriptfavicon.png">
+  <head>
+    <meta charset="UTF-8" />
+    <title>BlckScript</title>
 
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
-    }
-    #blocklyDiv {
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-    }
-    #run, #addAddonBtn {
-      position: fixed;
-      top: 10px;
-      z-index: 1000;
-      padding: 8px 16px;
-      font-size: 14px;
-      cursor: pointer;
-      border: none;
-      border-radius: 4px;
-      color: white;
-    }
-    #run {
-      right: 10px;
-      background-color: #4CAF50;
-      margin-left: 8px;
-    }
-    input[type="file"] {
-      display: none;
-    }
-  </style>
-</head>
-<body>
+    <link rel="icon" type="image/x-icon" href="blckscriptfavicon.png" />
 
-  <div id="blocklyDiv"></div>
+    <script src="https://unpkg.com/blockly/blockly_compressed.js"></script>
+    <script src="https://unpkg.com/blockly/blocks_compressed.js"></script>
+    <script src="https://unpkg.com/blockly/javascript_compressed.js"></script>
+    <script src="https://unpkg.com/blockly/msg/en.js"></script>
 
-  <!-- Toolbox XML -->
-  <xml id="toolbox" style="display: none">
-    <category name="Logic" categorystyle="logic_category">
-      <block type="controls_if"></block>
-      <block type="logic_compare"></block>
-      <block type="logic_operation"></block>
-      <block type="logic_negate"></block>
-      <block type="logic_boolean"></block>
-      <block type="logic_null"></block>
-      <block type="logic_ternary"></block>
-    </category>
-    <category name="Loops" categorystyle="loop_category">
-      <block type="controls_repeat_ext">
-        <value name="TIMES">
-          <shadow type="math_number"><field name="NUM">10</field></shadow>
-        </value>
-      </block>
-      <block type="controls_whileUntil"></block>
-      <block type="controls_for">
-        <value name="FROM"><shadow type="math_number"><field name="NUM">1</field></shadow></value>
-        <value name="TO"><shadow type="math_number"><field name="NUM">10</field></shadow></value>
-        <value name="BY"><shadow type="math_number"><field name="NUM">1</field></shadow></value>
-      </block>
-      <block type="controls_forEach"></block>
-      <block type="controls_flow_statements"></block>
-    </category>
-    <category name="Math" categorystyle="math_category">
-      <block type="math_number"><field name="NUM">123</field></block>
-      <block type="math_arithmetic">
-        <value name="A"><shadow type="math_number"><field name="NUM">1</field></shadow></value>
-        <value name="B"><shadow type="math_number"><field name="NUM">1</field></shadow></value>
-      </block>
-      <block type="math_single">
-        <value name="NUM"><shadow type="math_number"><field name="NUM">9</field></shadow></value>
-      </block>
-      <block type="math_trig">
-        <value name="NUM"><shadow type="math_number"><field name="NUM">45</field></shadow></value>
-      </block>
-      <block type="math_constant"></block>
-      <block type="math_number_property">
-        <value name="NUMBER_TO_CHECK"><shadow type="math_number"><field name="NUM">0</field></shadow></value>
-      </block>
-      <block type="math_round">
-        <value name="NUM"><shadow type="math_number"><field name="NUM">3.1</field></shadow></value>
-      </block>
-      <block type="math_on_list"></block>
-      <block type="math_modulo">
-        <value name="DIVIDEND"><shadow type="math_number"><field name="NUM">64</field></shadow></value>
-        <value name="DIVISOR"><shadow type="math_number"><field name="NUM">10</field></shadow></value>
-      </block>
-      <block type="math_constrain">
-        <value name="VALUE"><shadow type="math_number"><field name="NUM">50</field></shadow></value>
-        <value name="LOW"><shadow type="math_number"><field name="NUM">1</field></shadow></value>
-        <value name="HIGH"><shadow type="math_number"><field name="NUM">100</field></shadow></value>
-      </block>
-      <block type="math_random_int">
-        <value name="FROM"><shadow type="math_number"><field name="NUM">1</field></shadow></value>
-        <value name="TO"><shadow type="math_number"><field name="NUM">100</field></shadow></value>
-      </block>
-      <block type="math_random_float"></block>
-    </category>
-    <category name="Text" categorystyle="text_category">
-      <block type="text"></block>
-      <block type="text_join"></block>
-      <block type="text_append">
-        <value name="TEXT"><shadow type="text"></shadow></value>
-      </block>
-      <block type="text_length">
-        <value name="VALUE"><shadow type="text"></shadow></value>
-      </block>
-      <block type="text_isEmpty">
-        <value name="VALUE"><shadow type="text"></shadow></value>
-      </block>
-      <block type="text_indexOf">
-        <value name="VALUE"><shadow type="text"></shadow></value>
-        <value name="FIND"><shadow type="text"></shadow></value>
-      </block>
-      <block type="text_charAt">
-        <value name="VALUE"><shadow type="text"></shadow></value>
-      </block>
-      <block type="text_getSubstring">
-        <value name="STRING"><shadow type="text"></shadow></value>
-      </block>
-      <block type="text_changeCase">
-        <value name="TEXT"><shadow type="text"></shadow></value>
-      </block>
-      <block type="text_trim">
-        <value name="TEXT"><shadow type="text"></shadow></value>
-      </block>
-      <block type="text_print"></block>
-      <block type="text_prompt_ext">
-        <value name="TEXT"><shadow type="text"></shadow></value>
-      </block>
-    </category>
-    <category name="Lists" categorystyle="list_category">
-      <block type="lists_create_with"></block>
-      <block type="lists_repeat">
-        <value name="NUM"><shadow type="math_number"><field name="NUM">5</field></shadow></value>
-      </block>
-      <block type="lists_length"></block>
-      <block type="lists_isEmpty"></block>
-      <block type="lists_indexOf">
-        <value name="VALUE"><shadow type="lists_create_with"></shadow></value>
-      </block>
-      <block type="lists_getIndex"></block>
-      <block type="lists_setIndex"></block>
-      <block type="lists_getSublist"></block>
-      <block type="lists_split">
-        <value name="DELIM"><shadow type="text"><field name="TEXT">,</field></shadow></value>
-      </block>
-      <block type="lists_sort"></block>
-    </category>
-    <category name="Variables" categorystyle="variable_category" custom="VARIABLE"></category>
-    <category name="Functions" categorystyle="procedure_category" custom="PROCEDURE"></category>
-    <category name="Advanced" categorystyle="blckscript_category">
-     <block type="eval"></block>
-    </category>
-
-  </xml>
-
-  <button id="run">Run</button>
-
-  <script>
-    const scratchTheme = Blockly.Theme.defineTheme('scratchTheme', {
-      base: Blockly.Themes.Classic,
-      blockStyles: {
-        logic_blocks: { colourPrimary: "#FFAB19" },
-        loop_blocks: { colourPrimary: "#FFAB19" },
-        math_blocks: { colourPrimary: "#59C059" },
-        text_blocks: { colourPrimary: "#5BA5CB" },
-        list_blocks: { colourPrimary: "#CC3399" },
-        variable_blocks: { colourPrimary: "#FF8C1A" },
-        procedure_blocks: { colourPrimary: "#FF6680" },
-        blckscript_blocks: { colourPrimary: "#10c926" }
-      },
-      categoryStyles: {
-        logic_category: { colour: "#FFAB19" },
-        loop_category: { colour: "#FFAB19" },
-        math_category: { colour: "#59C059" },
-        text_category: { colour: "#5BA5CB" },
-        list_category: { colour: "#CC3399" },
-        variable_category: { colour: "#FF8C1A" },
-        procedure_category: { colour: "#FF6680" },
-        blckscript_category: { colour: "#10c926" }
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
       }
-    });
-    // Define the block with a text input field 'code'
-Blockly.defineBlocksWithJsonArray([
-  {
-    "type": "eval",
-    "message0": "eval %1",
-    "args0": [
-      {
-        "type": "field_input",
-        "name": "code",
-        "text": "2 + 2"
+
+      #blocklyDiv {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
       }
-    ],
-    "output": null,  // This block outputs a value (the result of eval)
-    "colour": 230,
-    "tooltip": "Evaluates JavaScript code",
-    "helpUrl": ""
-  }
-]);
 
-// Define the JavaScript code generator for the block
-Blockly.JavaScript['eval'] = function(block) {
-  var code = block.getFieldValue('code');
-  // Wrap the code in parentheses to ensure it's evaluated properly
-  return ['eval(' + JSON.stringify(code) + ')', Blockly.JavaScript.ORDER_FUNCTION_CALL];
-};
-
-
-    const workspace = Blockly.inject('blocklyDiv', {
-      toolbox: document.getElementById('toolbox'),
-      theme: scratchTheme,
-      renderer: 'zelos'
-    });
-
-    window.addEventListener('resize', () => {
-      Blockly.svgResize(workspace);
-    });
-
-    // Run button executes generated JS
-    document.getElementById('run').addEventListener('click', () => {
-      try {
-        const code = Blockly.JavaScript.workspaceToCode(workspace);
-        eval(code);
-      } catch (e) {
-        alert('Error in generated code: ' + e);
+      #run {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 1000;
+        padding: 8px 16px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        background-color: #4caf50;
       }
-    });
 
-  </script>
+      input[type='file'] {
+        display: none;
+      }
+    </style>
+  </head>
 
-</body>
+  <body>
+    <div id="blocklyDiv"></div>
+
+    <xml id="toolbox" style="display: none">
+      <category name="Logic" categorystyle="logic_category">
+        <block type="controls_if"></block>
+        <block type="logic_compare"></block>
+        <block type="logic_operation"></block>
+        <block type="logic_negate"></block>
+        <block type="logic_boolean"></block>
+        <block type="logic_null"></block>
+        <block type="logic_ternary"></block>
+      </category>
+      <category name="Loops" categorystyle="loop_category">
+        <block type="controls_repeat_ext">
+          <value name="TIMES">
+            <shadow type="math_number">
+              <field name="NUM">10</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="controls_whileUntil"></block>
+        <block type="controls_for">
+          <value name="FROM">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+          <value name="TO">
+            <shadow type="math_number">
+              <field name="NUM">10</field>
+            </shadow>
+          </value>
+          <value name="BY">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="controls_forEach"></block>
+        <block type="controls_flow_statements"></block>
+      </category>
+      <category name="Math" categorystyle="math_category">
+        <block type="math_number">
+          <field name="NUM">123</field>
+        </block>
+        <block type="math_arithmetic">
+          <value name="A">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+          <value name="B">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_single">
+          <value name="NUM">
+            <shadow type="math_number">
+              <field name="NUM">9</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_trig">
+          <value name="NUM">
+            <shadow type="math_number">
+              <field name="NUM">45</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_constant"></block>
+        <block type="math_number_property">
+          <value name="NUMBER_TO_CHECK">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_round">
+          <value name="NUM">
+            <shadow type="math_number">
+              <field name="NUM">3.1</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_on_list"></block>
+        <block type="math_modulo">
+          <value name="DIVIDEND">
+            <shadow type="math_number">
+              <field name="NUM">64</field>
+            </shadow>
+          </value>
+          <value name="DIVISOR">
+            <shadow type="math_number">
+              <field name="NUM">10</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_constrain">
+          <value name="VALUE">
+            <shadow type="math_number">
+              <field name="NUM">50</field>
+            </shadow>
+          </value>
+          <value name="LOW">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+          <value name="HIGH">
+            <shadow type="math_number">
+              <field name="NUM">100</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_random_int">
+          <value name="FROM">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+          <value name="TO">
+            <shadow type="math_number">
+              <field name="NUM">100</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_random_float"></block>
+      </category>
+      <category name="Text" categorystyle="text_category">
+        <block type="text"></block>
+        <block type="text_join"></block>
+        <block type="text_append">
+          <value name="TEXT">
+            <shadow type="text"></shadow>
+          </value>
+        </block>
+        <block type="text_length">
+          <value name="VALUE">
+            <shadow type="text"></shadow>
+          </value>
+        </block>
+        <block type="text_isEmpty">
+          <value name="VALUE">
+            <shadow type="text"></shadow>
+          </value>
+        </block>
+        <block type="text_indexOf">
+          <value name="VALUE">
+            <shadow type="text"></shadow>
+          </value>
+          <value name="FIND">
+            <shadow type="text"></shadow>
+          </value>
+        </block>
+        <block type="text_charAt">
+          <value name="VALUE">
+            <shadow type="text"></shadow>
+          </value>
+        </block>
+        <block type="text_getSubstring">
+          <value name="STRING">
+            <shadow type="text"></shadow>
+          </value>
+        </block>
+        <block type="text_changeCase">
+          <value name="TEXT">
+            <shadow type="text"></shadow>
+          </value>
+        </block>
+        <block type="text_trim">
+          <value name="TEXT">
+            <shadow type="text"></shadow>
+          </value>
+        </block>
+        <block type="text_print"></block>
+        <block type="text_prompt_ext">
+          <value name="TEXT">
+            <shadow type="text"></shadow>
+          </value>
+        </block>
+      </category>
+      <category name="Lists" categorystyle="list_category">
+        <block type="lists_create_with"></block>
+        <block type="lists_repeat">
+          <value name="NUM">
+            <shadow type="math_number">
+              <field name="NUM">5</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="lists_length"></block>
+        <block type="lists_isEmpty"></block>
+        <block type="lists_indexOf">
+          <value name="VALUE">
+            <shadow type="lists_create_with"></shadow>
+          </value>
+        </block>
+        <block type="lists_getIndex"></block>
+        <block type="lists_setIndex"></block>
+        <block type="lists_getSublist"></block>
+        <block type="lists_split">
+          <value name="DELIM">
+            <shadow type="text">
+              <field name="TEXT">,</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="lists_sort"></block>
+      </category>
+      <category name="Variables" categorystyle="variable_category" custom="VARIABLE"></category>
+      <category name="Functions" categorystyle="procedure_category" custom="PROCEDURE"></category>
+      <category name="Advanced" categorystyle="blckscript_category">
+        <block type="eval"></block>
+      </category>
+    </xml>
+
+    <button id="run">Run</button>
+
+    <script>
+      const scratchTheme = Blockly.Theme.defineTheme('scratchTheme', {
+        base: Blockly.Themes.Classic,
+        blockStyles: {
+          logic_blocks: { colourPrimary: '#FFAB19' },
+          loop_blocks: { colourPrimary: '#FFAB19' },
+          math_blocks: { colourPrimary: '#59C059' },
+          text_blocks: { colourPrimary: '#5BA5CB' },
+          list_blocks: { colourPrimary: '#CC3399' },
+          variable_blocks: { colourPrimary: '#FF8C1A' },
+          procedure_blocks: { colourPrimary: '#FF6680' },
+          blckscript_blocks: { colourPrimary: '#10c926' }
+        },
+        categoryStyles: {
+          logic_category: { colour: '#FFAB19' },
+          loop_category: { colour: '#FFAB19' },
+          math_category: { colour: '#59C059' },
+          text_category: { colour: '#5BA5CB' },
+          list_category: { colour: '#CC3399' },
+          variable_category: { colour: '#FF8C1A' },
+          procedure_category: { colour: '#FF6680' },
+          blckscript_category: { colour: '#10c926' }
+        }
+      });
+
+      Blockly.defineBlocksWithJsonArray([
+        {
+          type: 'eval',
+          message0: 'eval %1',
+          args0: [
+            {
+              type: 'field_input',
+              name: 'code',
+              text: '2 + 2'
+            }
+          ],
+          output: null,
+          colour: 230,
+          tooltip: 'Evaluates JavaScript code',
+          helpUrl: ''
+        }
+      ]);
+
+      Blockly.JavaScript['eval'] = function (block) {
+        var code = block.getFieldValue('code');
+        return ['eval(' + JSON.stringify(code) + ')', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+      };
+
+      const workspace = Blockly.inject('blocklyDiv', {
+        toolbox: document.getElementById('toolbox'),
+        theme: scratchTheme,
+        renderer: 'zelos'
+      });
+
+      window.addEventListener('resize', () => {
+        Blockly.svgResize(workspace);
+      });
+
+      document.getElementById('run').addEventListener('click', () => {
+        try {
+          const code = Blockly.JavaScript.workspaceToCode(workspace);
+          eval(code);
+        } catch (e) {
+          alert('Error in generated code: ' + e);
+        }
+      });
+    </script>
+  </body>
 </html>
