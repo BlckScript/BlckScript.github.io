@@ -58,7 +58,6 @@
       <block type="logic_boolean"></block>
       <block type="logic_null"></block>
       <block type="logic_ternary"></block>
-      <block type="wait"></block>
     </category>
     <category name="Loops" categorystyle="loop_category">
       <block type="controls_repeat_ext">
@@ -163,6 +162,9 @@
     </category>
     <category name="Variables" categorystyle="variable_category" custom="VARIABLE"></category>
     <category name="Functions" categorystyle="procedure_category" custom="PROCEDURE"></category>
+    <category name="BlckScript" categorystyle="blckscript_category">
+        <block type="wait"></block>
+    </category>
   </xml>
 
   <button id="run">Run</button>
@@ -177,7 +179,8 @@
         text_blocks: { colourPrimary: "#5BA5CB" },
         list_blocks: { colourPrimary: "#CC3399" },
         variable_blocks: { colourPrimary: "#FF8C1A" },
-        procedure_blocks: { colourPrimary: "#FF6680" }
+        procedure_blocks: { colourPrimary: "#FF6680" },
+        blckscript_blocks: { colourPrimary: "#10c926" }
       },
       categoryStyles: {
         logic_category: { colour: "#FFAB19" },
@@ -186,7 +189,8 @@
         text_category: { colour: "#5BA5CB" },
         list_category: { colour: "#CC3399" },
         variable_category: { colour: "#FF8C1A" },
-        procedure_category: { colour: "#FF6680" }
+        procedure_category: { colour: "#FF6680" },
+        blckscript_category: { colour: "#10c926" }
       }
     });
     Blockly.defineBlocksWithJsonArray([
