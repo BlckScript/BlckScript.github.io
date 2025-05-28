@@ -192,23 +192,29 @@
     Blockly.defineBlocksWithJsonArray([
     {
      "type": "wait",
-      "message0": "Wait Milliseconds",
+      "message0": "Wait (ms)",
       "args0": [
       {
         "type": "field_number",
         "name": "time"
+      },
+      {
+      "type": "input_statement",
+      "name": "run"
       }
       ],
       "previousStatement": null,
       "nextStatement": null,
       "colour": 160,
       "tooltip": "Says hello",
-      "helpUrl": ""
+      "helpUrl": "Waits for a specified amount of milliseconds, then runs code under it. \n Blocks under this block but not in the input, will not wait and will be ran concurrently."
     }
     ]);
     Blockly.JavaScript['wait'] = function(block) {
     var time = block.getFieldValue('time');
-    return 'await return new Promise(resolve => setTimeout(resolve,' + time + ') );\n';
+    var statements = Blockly.JavaScript.statementToCode(block, 'run');
+    var code = 'setTimeout(function() {' + statements + '}, ' + time + ');'
+    return code;
     };
     const workspace = Blockly.inject('blocklyDiv', {
       toolbox: document.getElementById('toolbox'),
