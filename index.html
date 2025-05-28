@@ -193,31 +193,32 @@
         blckscript_category: { colour: "#10c926" }
       }
     });
-    Blockly.defineBlocksWithJsonArray([
-    {
-     "type": "eval",
-     "message0": "Eval %1",
-     "args0": [
-       {
-         "type": "input_value",
-         "name": "code",
-         "value": null,
-       },
-     ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": 160,
-    "tooltip": "Waits and then runs code",
+    // Define the block with a text input field 'code'
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "eval",
+    "message0": "eval %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "code",
+        "text": "2 + 2"
+      }
+    ],
+    "output": null,  // This block outputs a value (the result of eval)
+    "colour": 230,
+    "tooltip": "Evaluates JavaScript code",
     "helpUrl": ""
   }
-  ]);
+]);
 
-    Blockly.JavaScript['eval'] = function(block) {
-      const time = block.getFieldValue('TIME');
-      const statements_do = Blockly.JavaScript.statementToCode(block, 'DO');
-      const code = 'setTimeout(function() {\n' + statements_do + '}, ' + time + ');\n';
-      return 'eval(' + block.getFieldValue('code') + ');\n';
-    };
+// Define the JavaScript code generator for the block
+Blockly.JavaScript['eval'] = function(block) {
+  var code = block.getFieldValue('code');
+  // Wrap the code in parentheses to ensure it's evaluated properly
+  return ['eval(' + code + ')', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
 
     const workspace = Blockly.inject('blocklyDiv', {
       toolbox: document.getElementById('toolbox'),
