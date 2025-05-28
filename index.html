@@ -216,7 +216,7 @@ Blockly.defineBlocksWithJsonArray([
 Blockly.JavaScript['eval'] = function(block) {
   var code = block.getFieldValue('code');
   // Wrap the code in parentheses to ensure it's evaluated properly
-  return ['eval(' + code + ')', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+  return ['eval(' + JSON.stringify(code) + ')', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
 
