@@ -58,6 +58,7 @@
       <block type="logic_boolean"></block>
       <block type="logic_null"></block>
       <block type="logic_ternary"></block>
+      <block type="wait"></block>
     </category>
     <category name="Loops" categorystyle="loop_category">
       <block type="controls_repeat_ext">
@@ -188,7 +189,27 @@
         procedure_category: { colour: "#FF6680" }
       }
     });
-
+    Blockly.defineBlocksWithJsonArray([
+    {
+     "type": "wait",
+      "message0": "Wait Milliseconds",
+      "args0": [
+      {
+        "type": "feild_number",
+        "name": "time"
+      }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": 160,
+      "tooltip": "Says hello",
+      "helpUrl": ""
+    }
+    ]);
+    Blockly.JavaScript['say_text'] = function(block) {
+    var time = block.getFieldValue('time');
+    return 'await return new Promise(resolve => setTimeout(resolve,' + time + ') );\n';
+    };
     const workspace = Blockly.inject('blocklyDiv', {
       toolbox: document.getElementById('toolbox'),
       theme: scratchTheme,
