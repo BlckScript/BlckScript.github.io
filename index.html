@@ -280,23 +280,49 @@
 
     <button id="run">Run</button>
     <button id="download">Download</button>
-    <script src="blocks.js"></script>
+
     <script>
+      Blockly.defineBlocksWithJsonArray([
+        {
+          type: "HTML_sethtmltext",
+          message0: "Set Text Of Html Element With ID %1 to %2",
+          args0: [
+            {
+              type: "field_input",
+              name: "NAME",
+              text: "id"
+            },
+            {
+              type: "input_value",
+              name: "text"
+            }
+          ],
+          previousStatement: null,
+          nextStatement: null,
+          colour: 195,
+          tooltip: "changes the text of an html element with an id",
+          helpUrl: ""
+        }
+      ]);
 
-
-
+      Blockly.JavaScript['HTML_sethtmltext'] = function(block) {
+        var elementId = block.getFieldValue('NAME');
+        var textCode = Blockly.JavaScript.valueToCode(block, 'text', Blockly.JavaScript.ORDER_NONE) || "''";
+        var code = `document.getElementById(${JSON.stringify(elementId)}).innerText = ${textCode};\n`;
+        return code;
+      };
 
       const blckscriptcolors = Blockly.Theme.defineTheme('blckscriptcolors', {
         base: Blockly.Themes.Classic,
         blockStyles: {
-        logic_blocks: { colourPrimary: '#FFAB19' },
-        loop_blocks: { colourPrimary: '#FFAB19' },
-        math_blocks: { colourPrimary: '#59C059' },
-        text_blocks: { colourPrimary: '#5BA5CB' },
-        list_blocks: { colourPrimary: '#CC3399' },
-        variable_blocks: { colourPrimary: '#FF8C1A' },
-        procedure_blocks: { colourPrimary: '#FF6680' },
-        blckscript_blocks: { colourPrimary: '#10c926' }
+          logic_blocks: { colourPrimary: '#FFAB19' },
+          loop_blocks: { colourPrimary: '#FFAB19' },
+          math_blocks: { colourPrimary: '#59C059' },
+          text_blocks: { colourPrimary: '#5BA5CB' },
+          list_blocks: { colourPrimary: '#CC3399' },
+          variable_blocks: { colourPrimary: '#FF8C1A' },
+          procedure_blocks: { colourPrimary: '#FF6680' },
+          blckscript_blocks: { colourPrimary: '#10c926' }
         },
         categoryStyles: {
           logic_category: { colour: '#FFAB19' },
@@ -317,7 +343,7 @@
       });
 
       function download(filename, text) {
-       var element = document.createElement('a');
+        var element = document.createElement('a');
         element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
         element.setAttribute('download', filename);
 
@@ -342,7 +368,7 @@
       document.getElementById('run').addEventListener('click', () => {
         try {
           const code = Blockly.JavaScript.workspaceToCode(workspace);
-          const builtin = "" // put functions here
+          const builtin = ""; // put functions here
           eval(builtin + code);
         } catch (e) {
           alert('Error in generated code: ' + e);
@@ -352,7 +378,7 @@
       document.getElementById('download').addEventListener('click', () => {
         try {
           const code = Blockly.JavaScript.workspaceToCode(workspace);
-          const builtin = "" // put functions here
+          const builtin = ""; // put functions here
           download("script.js", builtin + code);
         } catch (e) {
           alert('Error in generated code: ' + e);
