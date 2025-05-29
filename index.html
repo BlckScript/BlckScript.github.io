@@ -43,6 +43,19 @@
         color: white;
         background-color: #4caf50;
       }
+      #run {
+        position: fixed;
+        top: 10px;
+        right: 100px;
+        z-index: 1000;
+        padding: 8px 16px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        background-color: #848484;
+      }
     </style>
   </head>
 
@@ -260,11 +273,49 @@
       </category>
       <category name="Variables" categorystyle="variable_category" custom="VARIABLE"></category>
       <category name="Functions" categorystyle="procedure_category" custom="PROCEDURE"></category>
+      <category name="HTML">
+        <block type="sethtmltext"></block>
+      </category>
     </xml>
 
     <button id="run">Run</button>
+    <button id="download">Download</button>
 
     <script>
+      Blockly.common.defineBlocksWithJsonArray([{
+        "type": "sethtmltext",
+       "tooltip": "changes the text of an html element with an id",
+       "helpUrl": "",
+       "message0": "Set Text Of Html Element With ID %1 to %2",
+       "args0": [
+         {
+            "type": "field_input",
+            "name": "NAME",
+            "text": "id"
+          },
+          {
+            "type": "input_value",
+           "name": "text"
+         }
+       ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 195
+      }
+                    
+        
+      ])
+
+
+
+      javascriptGenerator.forBlock['sethtmltext'] = function() {
+       const text_name = block.getFieldValue('NAME');
+       const value_text = generator.valueToCode(block, 'text', Order.ATOMIC);
+
+       const code = "const element = document.getElementById('" + text_name + "');\n element.textContent = '" + value_text + "';\n";
+       return code;
+      }
+
       const blckscriptcolors = Blockly.Theme.defineTheme('blckscriptcolors', {
         base: Blockly.Themes.Classic,
         blockStyles: {
@@ -295,6 +346,18 @@
         }
       });
 
+      function download(filename, text) {
+       var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+      }
 
       const workspace = Blockly.inject('blocklyDiv', {
         toolbox: document.getElementById('toolbox'),
@@ -311,6 +374,16 @@
           const code = Blockly.JavaScript.workspaceToCode(workspace);
           const builtin = "" // put functions here
           eval(builtin + code);
+        } catch (e) {
+          alert('Error in generated code: ' + e);
+        }
+      });
+
+      document.getElementById('download').addEventListener('click', () => {
+        try {
+          const code = Blockly.JavaScript.workspaceToCode(workspace);
+          const builtin = "" // put functions here
+          download(script.js, builtin + code);
         } catch (e) {
           alert('Error in generated code: ' + e);
         }
