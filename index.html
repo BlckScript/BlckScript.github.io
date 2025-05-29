@@ -47,7 +47,7 @@
   </head>
 
   <body>
-    <div id="blocklyDiv"></div>
+    <div id="blocklyDiv"></div> <!-- this is how the entire thing works DO NOT REMOVE-->
 
     <xml id="toolbox" style="display: none">
       <category name="Logic" categorystyle="logic_category">
@@ -266,7 +266,7 @@
 
     <script>
       const blckscriptcolors = Blockly.Theme.defineTheme('blckscriptcolors', {
-        base: Blockly.Themes.Dark,
+        base: Blockly.Themes.Classic,
         blockStyles: {
           logic_blocks: { colourPrimary: '#FFAB19' },
           loop_blocks: { colourPrimary: '#FFAB19' },
@@ -286,13 +286,16 @@
           variable_category: { colour: '#FF8C1A' },
           procedure_category: { colour: '#FF6680' },
           blckscript_category: { colour: '#10c926' }
-        }
+        },
+        componentStyles : {
+         workspaceBackgroundColour: {colour: '#242424'}
+       }
       });
 
       const workspace = Blockly.inject('blocklyDiv', {
         toolbox: document.getElementById('toolbox'),
         theme: blckscriptcolors,
-        renderer: 'zelos'
+        renderer: 'zelos',
       });
 
       window.addEventListener('resize', () => {
@@ -302,7 +305,8 @@
       document.getElementById('run').addEventListener('click', () => {
         try {
           const code = Blockly.JavaScript.workspaceToCode(workspace);
-          eval(code);
+          const builtin = "" // put functions here
+          eval(builtin + code);
         } catch (e) {
           alert('Error in generated code: ' + e);
         }
