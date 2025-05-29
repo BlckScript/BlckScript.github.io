@@ -282,38 +282,34 @@
     <button id="download">Download</button>
 
     <script>
-      Blockly.defineBlocksWithJsonArray([{
-        "type": "sethtmltext",
-       "tooltip": "changes the text of an html element with an id",
-       "helpUrl": "",
-       "message0": "Set Text Of Html Element With ID %1 to %2",
-       "args0": [
-         {
-            "type": "field_input",
-            "name": "NAME",
-            "text": "id"
-          },
-          {
-            "type": "input_value",
-           "name": "text"
-         }
-       ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": 195
-      }
-                    
-        
-      ])
+  Blockly.defineBlocksWithJsonArray([
+    {
+      "type": "sethtmltext",
+      "message0": "Set Text Of Html Element With ID %1 to %2",
+      "args0": [
+        {
+          "type": "field_input",
+          "name": "NAME",
+          "text": "id"
+        },
+        {
+          "type": "input_value",
+          "name": "text"
+        }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": 195,
+      "tooltip": "changes the text of an html element with an id",
+      "helpUrl": ""
+    }
+  ]);
 
-
-
-      Blockly.JavaScript['sethtmltext'] = function(block) {
-  const text_name = block.getFieldValue('NAME');
-  const value_text = Blockly.JavaScript.valueToCode(block, 'text', Blockly.JavaScript.ORDER_ATOMIC);
-  const code = "const element = document.getElementById('" + text_name + "');\n element.textContent = " + value_text + ";\n";
-  return code;
+  Blockly.JavaScript['sethtmltext'] = function(block) {
+  return "alert('test');\n";
 };
+
+
 
 
       const blckscriptcolors = Blockly.Theme.defineTheme('blckscriptcolors', {
