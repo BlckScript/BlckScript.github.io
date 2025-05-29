@@ -43,7 +43,7 @@
         color: white;
         background-color: #4caf50;
       }
-      #run {
+      #download {
         position: fixed;
         top: 10px;
         right: 100px;
@@ -383,7 +383,7 @@
         try {
           const code = Blockly.JavaScript.workspaceToCode(workspace);
           const builtin = "" // put functions here
-          download(script.js, builtin + code);
+          download("script.js", builtin + code);
         } catch (e) {
           alert('Error in generated code: ' + e);
         }
