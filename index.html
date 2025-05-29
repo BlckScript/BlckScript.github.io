@@ -274,40 +274,14 @@
       <category name="Variables" categorystyle="variable_category" custom="VARIABLE"></category>
       <category name="Functions" categorystyle="procedure_category" custom="PROCEDURE"></category>
       <category name="HTML">
-        <block type="sethtmltext"></block>
+        <block type="HTML_sethtmltext"></block>
       </category>
     </xml>
 
     <button id="run">Run</button>
     <button id="download">Download</button>
-
+    <script src="blocks.js"></script>
     <script>
-  Blockly.defineBlocksWithJsonArray([
-    {
-      "type": "sethtmltext",
-      "message0": "Set Text Of Html Element With ID %1 to %2",
-      "args0": [
-        {
-          "type": "field_input",
-          "name": "NAME",
-          "text": "id"
-        },
-        {
-          "type": "input_value",
-          "name": "text"
-        }
-      ],
-      "previousStatement": null,
-      "nextStatement": null,
-      "colour": 195,
-      "tooltip": "changes the text of an html element with an id",
-      "helpUrl": ""
-    }
-  ]);
-
-  Blockly.JavaScript['sethtmltext'] = function(block) {
-  return "alert('test');\n";
-};
 
 
 
