@@ -309,12 +309,12 @@
 
 
       Blockly.JavaScript['sethtmltext'] = function(block) {
-       const text_name = block.getFieldValue('NAME');
-       const value_text = Blockly.JavaScript.valueToCode(block, 'text', Blockly.JavaScript.ORDER_ATOMIC);
+  const text_name = block.getFieldValue('NAME');
+  const value_text = Blockly.JavaScript.valueToCode(block, 'text', Blockly.JavaScript.ORDER_ATOMIC);
+  const code = "const element = document.getElementById('" + text_name + "');\n element.textContent = " + value_text + ";\n";
+  return code;
+};
 
-       const code = "const element = document.getElementById('" + text_name + "');\n element.textContent = '" + value_text + "';\n";
-       return code;
-      }
 
       const blckscriptcolors = Blockly.Theme.defineTheme('blckscriptcolors', {
         base: Blockly.Themes.Classic,
