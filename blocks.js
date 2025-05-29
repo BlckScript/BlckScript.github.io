@@ -19,8 +19,8 @@ Blockly.defineBlocksWithJsonArray([
       "tooltip": "changes the text of an html element with an id",
       "helpUrl": ""
     }
-  ]);
+]);
 
-  Blockly.JavaScript['HTML_sethtmltext'] = function(block) {
+Blockly.JavaScript['HTML_sethtmltext'] = function(block) {
   return "alert('test');\n";
 };
