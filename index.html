@@ -43,10 +43,6 @@
         color: white;
         background-color: #4caf50;
       }
-
-      input[type='file'] {
-        display: none;
-      }
     </style>
   </head>
 
@@ -264,16 +260,13 @@
       </category>
       <category name="Variables" categorystyle="variable_category" custom="VARIABLE"></category>
       <category name="Functions" categorystyle="procedure_category" custom="PROCEDURE"></category>
-      <category name="Advanced" categorystyle="blckscript_category">
-        <block type="eval"></block>
-      </category>
     </xml>
 
     <button id="run">Run</button>
 
     <script>
-      const scratchTheme = Blockly.Theme.defineTheme('scratchTheme', {
-        base: Blockly.Themes.Classic,
+      const blckscriptcolors = Blockly.Theme.defineTheme('blckscriptcolors', {
+        base: Blockly.Themes.Dark,
         blockStyles: {
           logic_blocks: { colourPrimary: '#FFAB19' },
           loop_blocks: { colourPrimary: '#FFAB19' },
@@ -296,32 +289,9 @@
         }
       });
 
-      Blockly.defineBlocksWithJsonArray([
-        {
-          type: 'eval',
-          message0: 'eval %1',
-          args0: [
-            {
-              type: 'field_input',
-              name: 'code',
-              text: '2 + 2'
-            }
-          ],
-          output: null,
-          colour: 230,
-          tooltip: 'Evaluates JavaScript code',
-          helpUrl: ''
-        }
-      ]);
-
-      Blockly.JavaScript['eval'] = function (block) {
-        var code = block.getFieldValue('code');
-        return ['eval(' + JSON.stringify(code) + ')', Blockly.JavaScript.ORDER_FUNCTION_CALL];
-      };
-
       const workspace = Blockly.inject('blocklyDiv', {
         toolbox: document.getElementById('toolbox'),
-        theme: scratchTheme,
+        theme: blckscriptcolors,
         renderer: 'zelos'
       });
 
