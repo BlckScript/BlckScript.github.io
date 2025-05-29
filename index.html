@@ -59,6 +59,9 @@
         <block type="logic_null"></block>
         <block type="logic_ternary"></block>
       </category>
+      <category name="Events" categorystyle="#fcdf03">
+        <block type="run_event"></block>
+      </category>
       <category name="Loops" categorystyle="loop_category">
         <block type="controls_repeat_ext">
           <value name="TIMES">
@@ -265,56 +268,82 @@
     <button id="run">Run</button>
 
     <script>
-      const blckscriptcolors = Blockly.Theme.defineTheme('blckscriptcolors', {
-        base: Blockly.Themes.Classic,
-        blockStyles: {
-        logic_blocks: { colourPrimary: '#FFAB19' },
-        loop_blocks: { colourPrimary: '#FFAB19' },
-        math_blocks: { colourPrimary: '#59C059' },
-        text_blocks: { colourPrimary: '#5BA5CB' },
-        list_blocks: { colourPrimary: '#CC3399' },
-        variable_blocks: { colourPrimary: '#FF8C1A' },
-        procedure_blocks: { colourPrimary: '#FF6680' },
-        blckscript_blocks: { colourPrimary: '#10c926' }
+  Blockly.common.defineBlocksWithJsonArray([
+    {
+      "type": "run_event",
+      "message0": "When Run Button Pressed %1 %2",
+      "args0": [
+        {
+          "type": "input_end_row",
+          "name": "label"
         },
-        categoryStyles: {
-          logic_category: { colour: '#FFAB19' },
-          loop_category: { colour: '#FFAB19' },
-          math_category: { colour: '#59C059' },
-          text_category: { colour: '#5BA5CB' },
-          list_category: { colour: '#CC3399' },
-          variable_category: { colour: '#FF8C1A' },
-          procedure_category: { colour: '#FF6680' },
-          blckscript_category: { colour: '#10c926' }
-        },
-        componentStyles: {
-          workspaceBackgroundColour: '#242424',
-          toolboxBackgroundColour: '#1c1c1c',
-          toolboxForegroundColour: '#ffffff',
-          flyoutBackgroundColour: '#000000'
+        {
+          "type": "input_statement",
+          "name": "blocks"
         }
-      });
+      ],
+      "style": "blckscript_block_events", // Apply custom color style
+      "tooltip": "Event block for when the run button is pressed",
+      "helpUrl": ""
+    }
+  ]);
 
+  javascriptGenerator.forBlock['whenran'] = function(block, generator) {
+    const statement_blocks = generator.statementToCode(block, 'blocks');
+    const code = 'run(function(){\n' + statement_blocks + '\n});\n';
+    return code;
+  };
 
-      const workspace = Blockly.inject('blocklyDiv', {
-        toolbox: document.getElementById('toolbox'),
-        theme: blckscriptcolors,
-        renderer: 'zelos',
-      });
+  const blckscriptcolors = Blockly.Theme.defineTheme('blckscriptcolors', {
+    base: Blockly.Themes.Classic,
+    blockStyles: {
+      logic_blocks: { colourPrimary: '#FFAB19' },
+      loop_blocks: { colourPrimary: '#FFAB19' },
+      math_blocks: { colourPrimary: '#59C059' },
+      text_blocks: { colourPrimary: '#5BA5CB' },
+      list_blocks: { colourPrimary: '#CC3399' },
+      variable_blocks: { colourPrimary: '#FF8C1A' },
+      procedure_blocks: { colourPrimary: '#FF6680' },
+      blckscript_block_events: { colourPrimary: '#fcdf03' }
+    },
+    categoryStyles: {
+      logic_category: { colour: '#FFAB19' },
+      loop_category: { colour: '#FFAB19' },
+      math_category: { colour: '#59C059' },
+      text_category: { colour: '#5BA5CB' },
+      list_category: { colour: '#CC3399' },
+      variable_category: { colour: '#FF8C1A' },
+      procedure_category: { colour: '#FF6680' },
+      blckscript_category_events: { colour: '#fcdf03' }
+    },
+    componentStyles: {
+      workspaceBackgroundColour: '#242424',
+      toolboxBackgroundColour: '#1c1c1c',
+      toolboxForegroundColour: '#ffffff',
+      flyoutBackgroundColour: '#000000'
+    }
+  });
 
-      window.addEventListener('resize', () => {
-        Blockly.svgResize(workspace);
-      });
+  const workspace = Blockly.inject('blocklyDiv', {
+    toolbox: document.getElementById('toolbox'),
+    theme: blckscriptcolors,
+    renderer: 'zelos',
+  });
 
-      document.getElementById('run').addEventListener('click', () => {
-        try {
-          const code = Blockly.JavaScript.workspaceToCode(workspace);
-          const builtin = "" // put functions here
-          eval(builtin + code);
-        } catch (e) {
-          alert('Error in generated code: ' + e);
-        }
-      });
-    </script>
+  window.addEventListener('resize', () => {
+    Blockly.svgResize(workspace);
+  });
+
+  document.getElementById('run').addEventListener('click', () => {
+    try {
+      const code = Blockly.JavaScript.workspaceToCode(workspace);
+      const builtin = "function run(b){ b(); }"; // Safer than using eval
+      eval(builtin + code);
+    } catch (e) {
+      alert('Error in generated code: ' + e);
+    }
+  });
+</script>
+
   </body>
 </html>
