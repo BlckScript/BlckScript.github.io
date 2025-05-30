@@ -35,6 +35,7 @@
       }
     </style>
   </head>
+
   <body>
     <div id="controls">
       <button onclick="runCode()">Run</button>
@@ -144,7 +145,6 @@
       <sep></sep>
       <category name="Generated Blocks">
         <block type="cheese"></block>
-        <block type="girl"></block>
       </category>
     </xml>
 
@@ -162,21 +162,6 @@
 
       Blockly.JavaScript['cheese'] = function (block) {
         return 'alert("This is a test, the block ID is: cheese");\n';
-      };
-
-      Blockly.Blocks['girl'] = {
-        init: function () {
-          this.appendDummyInput().appendField("Test Block");
-          this.setPreviousStatement(true, null);
-          this.setNextStatement(true, null);
-          this.setColour(270);
-          this.setTooltip("Custom Block!");
-          this.setHelpUrl("");
-        }
-      };
-
-      Blockly.JavaScript['girl'] = function (block) {
-        return 'alert("This is a test, the block ID is: girl");\n';
       };
 
       // Inject workspace using the Zelos renderer
